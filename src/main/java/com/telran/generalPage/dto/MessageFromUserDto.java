@@ -8,7 +8,7 @@ import lombok.*;
 @Setter
 @Builder
 @ToString
-public class MessageFromUser {
+public class MessageFromUserDto {
     String message;
     String email;
     String fullName;
