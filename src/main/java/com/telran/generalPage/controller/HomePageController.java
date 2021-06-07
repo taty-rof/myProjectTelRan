@@ -13,7 +13,7 @@ public class HomePageController {
     @GetMapping("applications")
     @Bean
     @ResponseStatus(code = HttpStatus.OK)
-    public List<Application> GetAllProductsOfCompany(){
+    public List<Application> getAllProductsOfCompany(){
         return List.of(Application.builder().id(123).name("Math").build());
     }
 }

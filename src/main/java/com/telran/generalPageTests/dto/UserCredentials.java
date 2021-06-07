@@ -1,4 +1,4 @@
-package com.telran.auth.dto;
+package com.telran.generalPageTests.dto;
 
 import lombok.*;
 

@@ -7,6 +7,8 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
+@ToString
+@EqualsAndHashCode(exclude = {"id"})
 public class Application {
     int id;
     String name;
