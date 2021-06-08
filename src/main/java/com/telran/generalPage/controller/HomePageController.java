@@ -5,7 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.*;
+
 import java.util.*;
+
 
 @RestController
 public class HomePageController<UserRepository> {
@@ -19,7 +21,7 @@ public class HomePageController<UserRepository> {
 
     @PostMapping("/message")
     @ResponseStatus(code = HttpStatus.OK)
-        public void postMessageFromUser(@Valid @RequestBody MessageFromUserDto messageFromUser){
+    public void postMessageFromUser(@Valid @RequestBody MessageFromUserDto messageFromUser){
         // message from user
     }
 }
