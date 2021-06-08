@@ -1,7 +1,6 @@
 package com.telran.auth.controller;
 
-import com.telran.auth.dto.UserProfile;
-import org.springframework.validation.annotation.Validated;
+import com.telran.auth.dto.UserProfileDto;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -11,7 +10,7 @@ public class UserController {
 //    repository
 
     @PostMapping("user/addUser")
-    public void addUser(UserProfile user){
+    public void addUser(UserProfileDto user){
         //todo
     }
 
@@ -22,7 +21,7 @@ public class UserController {
     }
 
     @GetMapping("user/{userEmail}")
-    public UserProfile getUserByEmail(@RequestBody @PathVariable String userEmail){
+    public UserProfileDto getUserByEmail(@RequestBody @PathVariable String userEmail){
         return null;
     }
 

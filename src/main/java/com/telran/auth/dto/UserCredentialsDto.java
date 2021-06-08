@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @Builder
-public class UserCredentials {
+public class UserCredentialsDto {
     @Email(message = "Email should be valid")
     String email;
 

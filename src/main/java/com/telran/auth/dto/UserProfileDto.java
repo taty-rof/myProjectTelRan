@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @Builder
-public class UserProfile {
+public class UserProfileDto {
     @NotNull(message = "Id cannot be null")
     String id;
 

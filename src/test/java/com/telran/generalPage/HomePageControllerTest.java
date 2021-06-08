@@ -1,12 +1,8 @@
-package com.telran.auth;
+package com.telran.generalPage;
 
 import com.telran.generalPage.controller.HomePageController;
-import com.telran.generalPage.dto.Application;
-<<<<<<< HEAD:src/test/java/com/telran/generalPageTests/HomePageControllerTest.java
+import com.telran.generalPage.dto.ApplicationDto;
 import com.telran.generalPage.dto.MessageFromUserDto;
-import org.junit.jupiter.api.BeforeAll;
-=======
->>>>>>> b50201587c4a558f810908e95ce995e338eb2444:src/test/java/com/telran/auth/HomePageControllerTest.java
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,8 +27,8 @@ public class HomePageControllerTest {
 
     @Test
     public void noInputValues_shouldReturnListOfApplications_getAllProductsOfCompany(){
-        List<Application> list = controller.getAllProductsOfCompany();
-        List<Application> expectedList = List.of(Application.builder().id(123).name("Math").build());
+        List<ApplicationDto> list = controller.getAllProductsOfCompany();
+        List<ApplicationDto> expectedList = List.of(ApplicationDto.builder().id(123).name("Math").build());
         assertNotNull(list);
         assertEquals(expectedList.size(), list.size() );
         for (int i = 0; i < list.size(); i++) {

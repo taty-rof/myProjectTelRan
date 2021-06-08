@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 @Builder
 @ToString
 @EqualsAndHashCode(exclude = {"id"})
-public class Application {
+public class ApplicationDto {
     @NotNull(message = "Id cannot be null")
     int id;
 

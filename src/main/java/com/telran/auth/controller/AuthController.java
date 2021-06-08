@@ -1,8 +1,7 @@
 package com.telran.auth.controller;
 
-import com.telran.auth.dto.UserCredentials;
+import com.telran.auth.dto.UserCredentialsDto;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,7 +13,7 @@ public class AuthController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping("auth/registration")
-    public void registrationNewUser(UserCredentials user){
+    public void registrationNewUser(UserCredentialsDto user){
         //to do
     }
 

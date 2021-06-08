@@ -15,8 +15,8 @@ public class HomePageController<UserRepository> {
 
     @GetMapping("applications")
     @ResponseStatus(code = HttpStatus.OK)
-    public List<Application> getAllProductsOfCompany(){
-        return List.of(Application.builder().id(123).name("Math").build());
+    public List<ApplicationDto> getAllProductsOfCompany(){
+        return List.of(ApplicationDto.builder().id(123).name("Math").build());
     }
 
     @PostMapping("/message")
