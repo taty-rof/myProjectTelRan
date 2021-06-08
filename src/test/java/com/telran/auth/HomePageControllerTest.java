@@ -1,14 +1,11 @@
-package com.telran.generalPageTests;
+package com.telran.auth;
 
 import com.telran.generalPage.controller.HomePageController;
 import com.telran.generalPage.dto.Application;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;

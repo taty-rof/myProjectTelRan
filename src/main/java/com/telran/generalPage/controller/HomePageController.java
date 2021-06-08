@@ -1,11 +1,11 @@
 package com.telran.generalPage.controller;
 
-import com.telran.generalPage.dto.Application;
-import com.telran.generalPage.dto.MessageFromUserDto;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import com.telran.generalPage.dto.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.*;
+import java.util.*;
 
 import java.util.*;
 
@@ -21,7 +21,7 @@ public class HomePageController<UserRepository> {
 
     @PostMapping("/message")
     @ResponseStatus(code = HttpStatus.OK)
-    public void postMessageFromUser(@RequestBody MessageFromUserDto messageFromUser){
+    public void postMessageFromUser(@Valid @RequestBody MessageFromUserDto messageFromUser){
         // message from user
     }
 }
