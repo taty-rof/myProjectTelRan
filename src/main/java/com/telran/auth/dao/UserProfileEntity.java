@@ -1,4 +1,4 @@
-package com.telran.auth.dto;
+package com.telran.auth.dao;
 
 import lombok.*;
 
@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @Builder
-public class UserProfileDto {
+public class UserProfileEntity {
     @NotNull(message = "Id cannot be null")
     String id;
 

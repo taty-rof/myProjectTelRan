@@ -2,6 +2,7 @@ package com.telran.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -30,6 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        System.out.println("+++++++");
         http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -37,6 +39,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .mvcMatchers( "/user/registration").permitAll()
+                .mvcMatchers( HttpMethod.GET,"/user/{userEmail}").hasRole("STUDENT")
+                .mvcMatchers(HttpMethod.POST,"/user/addUser").hasRole("ADMIN")
                 .anyRequest().permitAll()
                 .and()
                 .httpBasic();

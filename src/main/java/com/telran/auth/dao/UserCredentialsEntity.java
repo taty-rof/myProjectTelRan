@@ -7,7 +7,7 @@ import lombok.*;
 @Setter
 @Builder
 @ToString
-public class UserEntity {
+public class UserCredentialsEntity {
     String username;
     String password;
     String[] roles;
