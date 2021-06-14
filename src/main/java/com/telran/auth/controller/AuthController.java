@@ -1,20 +1,42 @@
 package com.telran.auth.controller;
 
+import com.telran.auth.dao.UserEntity;
+import com.telran.auth.dao.UserRepo;
 import com.telran.auth.dto.UserCredentialsDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "auth")
-//@Validated
+@RequestMapping(value = "user")
+@Validated
 public class AuthController {
-    // UserRepository
+
+    UserRepo userRepository;
+    PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public AuthController(UserRepo userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder=passwordEncoder;
+    }
 
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PostMapping("auth/registration")
-    public void registrationNewUser(UserCredentialsDto user){
-        //to do
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("registration")
+    public String registrationNewUser(@RequestBody UserCredentialsDto requestUserDto){
+
+        UserEntity entity =  UserEntity.builder()
+                .username(requestUserDto.getEmail())
+                .password("{noop}123"+requestUserDto.getPassword())
+                .roles(new String[]{"ROLE_USER"})
+                .build();
+
+        userRepository.addUser(requestUserDto.getEmail(),entity);
+
+        return "The email has been sent to you. Follow the link to complete registration.";
     }
 
 //    @GetMapping("auth/registration/{hash}")     ???????
@@ -35,7 +57,7 @@ public class AuthController {
     }
 
     @PutMapping("user/{userEmail}/password/reset")
-    public void updateUerPassword (@PathVariable String userEmail){
+    public void updateUserPassword (@PathVariable String userEmail){
         // to do
     }
 

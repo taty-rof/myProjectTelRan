@@ -25,7 +25,7 @@ public class ApplicationDto {
     @NotNull(message = "Title cannot be null")
     String title;
 
-    @Size(min = 10, max = 200, message
-            = "About Me must be between 10 and 200 characters")
+    @Size(min = 1, max = 200, message
+            = "About Me must be between 1 and 200 characters")
     String description;
 }
