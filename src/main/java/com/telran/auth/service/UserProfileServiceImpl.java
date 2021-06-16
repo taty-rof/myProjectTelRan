@@ -1,10 +1,8 @@
 package com.telran.auth.service;
 
-import com.telran.auth.dao.UserCredentialsRepo;
 import com.telran.auth.dao.UserPofileRepo;
-import com.telran.auth.dao.UserProfileEntity;
+import com.telran.auth.dao.entity.UserProfileEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,5 +23,15 @@ public class UserProfileServiceImpl implements UserProfileService {
     @Override
     public UserProfileEntity getUser(String email) {
         return userRepo.getUser(email);
+    }
+
+    @Override
+    public void updateUser(UserProfileEntity entity) {
+        userRepo.updateUser(entity);
+    }
+
+    @Override
+    public void deleteUser(String userEmail) {
+        userRepo.deleteUser(userEmail);
     }
 }

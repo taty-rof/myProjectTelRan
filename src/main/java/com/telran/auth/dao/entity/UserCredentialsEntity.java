@@ -1,4 +1,4 @@
-package com.telran.auth.dao;
+package com.telran.auth.dao.entity;
 import lombok.*;
 
 @AllArgsConstructor

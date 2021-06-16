@@ -1,22 +1,17 @@
 package com.telran.auth.controller;
 
-import com.telran.auth.dao.UserCredentialsEntity;
 import com.telran.auth.dao.UserCredentialsRepo;
-import com.telran.auth.dao.UserProfileEntity;
+import com.telran.auth.dao.entity.UserProfileEntity;
 import com.telran.auth.dto.UserProfileDto;
 import com.telran.auth.service.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
-import java.util.Arrays;
 
 @RestController
 @RequestMapping("user")
@@ -55,22 +50,33 @@ public class UserController {
     }
 
     @PutMapping("{userEmail}")
-//    public ResponseSuccessDto
-    public void updateUser(@RequestBody @PathVariable String userEmail){
-        //
+    @ResponseStatus(HttpStatus.OK)
+    public void updateUser(@NotNull @PathVariable String userEmail,
+                           @RequestBody UserProfileDto user,
+                           HttpServletRequest request){
+        if (!checkingUser(userEmail,request.getUserPrincipal().getName())
+        && !userEmail.equals(user.getEmail())){
+            throw new RuntimeException("You can't update this user profile");
+        }
+        UserProfileEntity entity = UserProfileEntity.builder()
+                .id(user.getId())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .institute(user.getInstitute())
+                .degree(user.getDegree())
+                .fields(user.getFields())
+                .apps(user.getApps())
+                .stillStudent(Boolean.TRUE)
+                .build();
+        profileService.updateUser(entity);
     }
 //    @RolesAllowed({"ADMIN","STUDENT"})
     @GetMapping("{userEmail}")
     public UserProfileDto getUserByEmail(@NotNull @PathVariable String userEmail,
                                          HttpServletRequest request){
-//**********Checking if userCredential's email equals to pathVariable email, but ADMIN can get info*************
-        if (!request.getUserPrincipal().getName().equals(userEmail)){
-            System.out.println(request.getUserPrincipal().getName());
-            System.out.println(adminName);
-            if (!request.getUserPrincipal().getName()
-                    .equals(adminName)) {
-                throw new RuntimeException("You can't get this user profile");
-            }
+       if (!checkingUser(userEmail,request.getUserPrincipal().getName())){
+            throw new RuntimeException("You can't get this user profile");
         }
         UserProfileEntity entity = profileService.getUser(userEmail);
         return UserProfileDto.builder()
@@ -87,8 +93,18 @@ public class UserController {
     }
 
     @DeleteMapping("{userEmail}")
-//    public ResponseSuccessDto
-    public void deleteUserByEmail(@RequestBody @PathVariable String userEmail){
-        //todo
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteUserByEmail(@PathVariable String userEmail){
+        profileService.deleteUser(userEmail);
+    }
+
+//**********Checking if userCredential's email equals to pathVariable email, but ADMIN can get info*************
+    private Boolean checkingUser(String userEmail, String requestEmail){
+        if (!requestEmail.equals(userEmail)){
+            if (!requestEmail.equals(adminName)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -1,6 +1,6 @@
 package com.telran.auth.controller;
 
-import com.telran.auth.dao.UserCredentialsEntity;
+import com.telran.auth.dao.entity.UserCredentialsEntity;
 import com.telran.auth.dao.UserCredentialsRepo;
 import com.telran.auth.dto.UserCredentialsDto;
 import org.springframework.beans.factory.annotation.Autowired;

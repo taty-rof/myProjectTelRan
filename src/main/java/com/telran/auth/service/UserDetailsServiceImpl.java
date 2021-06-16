@@ -2,6 +2,7 @@ package com.telran.auth.service;
 
 
 import com.telran.auth.dao.*;
+import com.telran.auth.dao.entity.UserCredentialsEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Primary;

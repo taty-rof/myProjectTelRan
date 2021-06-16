@@ -1,5 +1,6 @@
 package com.telran.auth.dao;
 
+import com.telran.auth.dao.entity.UserCredentialsEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.crypto.password.PasswordEncoder;
