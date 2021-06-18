@@ -41,10 +41,10 @@ public class AuthController {
 
 //    @GetMapping("auth/registration/{hash}")     ???????
 
-    @GetMapping("login")
-    public void loginUser(){ //???
-        // returns token
-    }
+//    @GetMapping("login")
+//    public void loginUser(){ //???
+//        // returns token
+//    }
 
     @GetMapping("logout")
     public void logoutUser(){ // ??

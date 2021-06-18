@@ -41,6 +41,7 @@ public class UserCredentialsRepositoryImpl implements UserCredentialsRepo {
     @Override
     public UserCredentialsEntity getUser(String email) {
         UserCredentialsEntity user = allUsersMap.get(email);
+        System.out.println("============ "+user);
         if(user == null){
             throw new RuntimeException(String.format("User with username: %s does not exist",email));
         }
