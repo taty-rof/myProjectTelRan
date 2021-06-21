@@ -45,7 +45,9 @@ public class UserController {
                 .stillStudent(Boolean.TRUE)
                 .build();
         String id = profileService.addUser(entity);
-        credentialsRepo.addRoleStudent(entity.getEmail());
+        if (id!=null){
+            credentialsRepo.addRoleStudent(entity.getEmail());
+        }
         return id;
     }
 

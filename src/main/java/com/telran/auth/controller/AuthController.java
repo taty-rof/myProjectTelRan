@@ -3,6 +3,9 @@ package com.telran.auth.controller;
 import com.telran.auth.dao.entity.UserCredentialsEntity;
 import com.telran.auth.dao.UserCredentialsRepo;
 import com.telran.auth.dto.UserCredentialsDto;
+import com.telran.auth.service.UserCredentialsService;
+import com.telran.messages.controller.NotificationController;
+import com.telran.messages.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,13 +17,17 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 public class AuthController {
 
-    UserCredentialsRepo userCredentialsRepository;
+    UserCredentialsService userCredentialsService;
     PasswordEncoder passwordEncoder;
+    NotificationController notificationController;
 
     @Autowired
-    public AuthController(UserCredentialsRepo userCredentialsRepository, PasswordEncoder passwordEncoder) {
-        this.userCredentialsRepository = userCredentialsRepository;
+    public AuthController(UserCredentialsService userCredentialsService,
+                          PasswordEncoder passwordEncoder,
+                          NotificationController notificationController) {
+        this.userCredentialsService = userCredentialsService;
         this.passwordEncoder=passwordEncoder;
+        this.notificationController=notificationController;
     }
 
 
@@ -34,26 +41,19 @@ public class AuthController {
                 .roles(new String[]{"ROLE_USER"})
                 .build();
 
-        userCredentialsRepository.addUser(requestUserDto.getEmail(),entity);
-
+        userCredentialsService.addUser(entity);
+        notificationController.registrationUser(requestUserDto.getEmail());
         return "The email has been sent to you. Follow the link to complete registration.";
     }
 
 //    @GetMapping("auth/registration/{hash}")     ???????
 
-//    @GetMapping("login")
-//    public void loginUser(){ //???
-//        // returns token
-//    }
 
-    @GetMapping("logout")
-    public void logoutUser(){ // ??
-        //to do
-    }
-
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("{userEmail}/password/reset")
     public void passwordRecovery(@PathVariable String userEmail){
-        //to do
+        userCredentialsService.addUser(entity);
+        notificationController.registrationUser(requestUserDto.getEmail());
     }
 
     @PutMapping("{userEmail}/password/reset")
