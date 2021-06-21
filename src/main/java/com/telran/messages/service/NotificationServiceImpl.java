@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 public class NotificationServiceImpl implements NotificationService{
 
     private JavaMailSender mailSender;
+    private String from = "tatyana.donirofman@gmail.com";
 
     @Autowired
     public NotificationServiceImpl(JavaMailSender mailSender){
@@ -21,18 +22,31 @@ public class NotificationServiceImpl implements NotificationService{
 
     @Override
     public void sendingRegistrationForm(String email) {
-        String from = "tatyana.donirofman@gmail.com";
         //String to = "lyzhina.anna@gmail.com";
         String to = "tatyana.donirofman@gmail.com";
         SimpleMailMessage message = new SimpleMailMessage();
 
         message.setFrom(from);
         message.setTo(to);
-        message.setSubject("This is a link to complete registration");
+        message.setSubject("Completing registration");
         message.setText("Please complete registration ... [link]");
         message.setSentDate(Date.valueOf(LocalDate.now()));
 
-        System.out.println(message+" MESSAGE TO ME");
+        mailSender.send(message);
+    }
+
+    @Override
+    public void sendingNewPassword(String email) {
+        //String to = "lyzhina.anna@gmail.com";
+        String to = "tatyana.donirofman@gmail.com";
+        SimpleMailMessage message = new SimpleMailMessage();
+
+        message.setFrom(from);
+        message.setTo(to);
+        message.setSubject("Forgetting password");
+        message.setText("Please follow to the link to change password ... [link]");
+        message.setSentDate(Date.valueOf(LocalDate.now()));
+
         mailSender.send(message);
     }
 }

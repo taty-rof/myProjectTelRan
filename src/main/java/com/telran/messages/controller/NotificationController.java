@@ -13,4 +13,8 @@ public class NotificationController {
     public void registrationUser(String email) {
         notificationService.sendingRegistrationForm(email);
     }
+
+    public void sendingNewPassword(String email){
+        notificationService.sendingNewPassword(email);
+    }
 }

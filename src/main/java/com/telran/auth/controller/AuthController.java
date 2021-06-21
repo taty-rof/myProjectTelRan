@@ -51,9 +51,12 @@ public class AuthController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("{userEmail}/password/reset")
-    public void passwordRecovery(@PathVariable String userEmail){
-        userCredentialsService.addUser(entity);
-        notificationController.registrationUser(requestUserDto.getEmail());
+    public String passwordRecovery(@PathVariable String userEmail){
+        UserCredentialsEntity entity = userCredentialsService.getUser(userEmail);
+        if (entity!=null){
+            notificationController.sendingNewPassword(userEmail);
+        }
+      return "A temporary password has been sent to the specified mail";
     }
 
     @PutMapping("{userEmail}/password/reset")
