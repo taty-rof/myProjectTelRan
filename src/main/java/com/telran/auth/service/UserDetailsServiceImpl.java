@@ -2,6 +2,7 @@ package com.telran.auth.service;
 
 
 import com.telran.auth.dao.*;
+import com.telran.auth.dao.entity.UserCredentialsEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Primary;
@@ -16,28 +17,24 @@ import org.springframework.stereotype.Service;
 @Primary
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    UserRepo userRepository;
+    UserCredentialsRepo userCredentialsRepository;
 
     @Autowired
-    public UserDetailsServiceImpl(@Lazy UserRepo repo) {
-        this.userRepository=repo;
+    public UserDetailsServiceImpl(@Lazy UserCredentialsRepo repo) {
+        this.userCredentialsRepository =repo;
     }
 
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        UserEntity entity = userRepository.getUser(username);
-
+        UserCredentialsEntity entity = userCredentialsRepository.getUser(username);
+        System.out.println("From USERDETAILSERVICE "+entity);
         if (entity == null){
             throw new UsernameNotFoundException(username);
         }
 
         return new User(entity.getUsername(),
                 entity.getPassword(),
-                entity.getEnabled(),
-                false,
-                false,
-                false,
                 AuthorityUtils.createAuthorityList(entity.getRoles()));
     }
 }

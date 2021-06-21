@@ -1,7 +1,7 @@
 package com.telran.auth.controller;
 
-import com.telran.auth.dao.UserEntity;
-import com.telran.auth.dao.UserRepo;
+import com.telran.auth.dao.entity.UserCredentialsEntity;
+import com.telran.auth.dao.UserCredentialsRepo;
 import com.telran.auth.dto.UserCredentialsDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 public class AuthController {
 
-    UserRepo userRepository;
+    UserCredentialsRepo userCredentialsRepository;
     PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AuthController(UserRepo userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
+    public AuthController(UserCredentialsRepo userCredentialsRepository, PasswordEncoder passwordEncoder) {
+        this.userCredentialsRepository = userCredentialsRepository;
         this.passwordEncoder=passwordEncoder;
     }
 
@@ -28,35 +28,35 @@ public class AuthController {
     @PostMapping("registration")
     public String registrationNewUser(@RequestBody UserCredentialsDto requestUserDto){
 
-        UserEntity entity =  UserEntity.builder()
+        UserCredentialsEntity entity =  UserCredentialsEntity.builder()
                 .username(requestUserDto.getEmail())
-                .password("{noop}123"+requestUserDto.getPassword())
+                .password(passwordEncoder.encode(requestUserDto.getPassword()))
                 .roles(new String[]{"ROLE_USER"})
                 .build();
 
-        userRepository.addUser(requestUserDto.getEmail(),entity);
+        userCredentialsRepository.addUser(requestUserDto.getEmail(),entity);
 
         return "The email has been sent to you. Follow the link to complete registration.";
     }
 
 //    @GetMapping("auth/registration/{hash}")     ???????
 
-    @GetMapping("auth/login")
-    public void loginUser(){ //???
-        // returns token
-    }
+//    @GetMapping("login")
+//    public void loginUser(){ //???
+//        // returns token
+//    }
 
-    @GetMapping("auth/logout")
+    @GetMapping("logout")
     public void logoutUser(){ // ??
         //to do
     }
 
-    @GetMapping("user/{userEmail}/password/reset")
+    @GetMapping("{userEmail}/password/reset")
     public void passwordRecovery(@PathVariable String userEmail){
         //to do
     }
 
-    @PutMapping("user/{userEmail}/password/reset")
+    @PutMapping("{userEmail}/password/reset")
     public void updateUserPassword (@PathVariable String userEmail){
         // to do
     }

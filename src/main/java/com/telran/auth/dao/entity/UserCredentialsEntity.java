@@ -1,4 +1,4 @@
-package com.telran.auth.dao;
+package com.telran.auth.dao.entity;
 import lombok.*;
 
 @AllArgsConstructor
@@ -7,7 +7,7 @@ import lombok.*;
 @Setter
 @Builder
 @ToString
-public class UserEntity {
+public class UserCredentialsEntity {
     String username;
     String password;
     String[] roles;
