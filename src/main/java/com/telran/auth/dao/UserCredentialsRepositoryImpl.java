@@ -30,10 +30,10 @@ public class UserCredentialsRepositoryImpl implements UserCredentialsRepo {
     }
 
     @Override
-    public void addUser(String email, UserCredentialsEntity user) {
-        if(allUsersMap.putIfAbsent(email, user) != null){
+    public void addUser(UserCredentialsEntity user) {
+        if(allUsersMap.putIfAbsent(user.getUsername(), user) != null){
 //            throw new UnauthorizedError(String.format("User with username: %s already exists!",email));
-            throw new RuntimeException(String.format("User with username: %s already exists!",email));
+            throw new RuntimeException(String.format("User with username: %s already exists!",user.getUsername()));
         }
     }
 
