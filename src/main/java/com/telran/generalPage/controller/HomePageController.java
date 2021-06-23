@@ -8,7 +8,7 @@ import javax.validation.*;
 
 import java.util.*;
 
-
+@CrossOrigin
 @RestController
 public class HomePageController<UserRepository> {
 
