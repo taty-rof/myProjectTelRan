@@ -14,7 +14,7 @@ public class NotificationServiceImpl implements NotificationService{
 
     private JavaMailSender mailSender;
     String baseUrl = "https://telran-project.herokuapp.com";
-    private String from = "tatyana.donirofman@gmail.com";
+    private String from="tatyana.donirofman@gmail.com";
 
     @Autowired
     public NotificationServiceImpl(JavaMailSender mailSender){

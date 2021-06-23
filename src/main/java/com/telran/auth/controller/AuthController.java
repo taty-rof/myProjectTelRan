@@ -43,7 +43,6 @@ public class AuthController {
                 .build();
 
         userCredentialsService.addUser(entity);
-
         notificationController.registrationUser(requestUserDto.getEmail());
         return "The email has been sent to you. Follow the link to complete registration. ";
     }
