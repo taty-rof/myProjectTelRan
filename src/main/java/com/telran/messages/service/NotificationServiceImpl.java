@@ -23,7 +23,7 @@ public class NotificationServiceImpl implements NotificationService{
     @Override
     public void sendingRegistrationForm(String email) {
         //String to = "lyzhina.anna@gmail.com";
-        String to = "tatyana.donirofman@gmail.com";
+        String to = email;
         SimpleMailMessage message = new SimpleMailMessage();
 
         message.setFrom(from);
@@ -38,7 +38,7 @@ public class NotificationServiceImpl implements NotificationService{
     @Override
     public void sendingNewPassword(String email) {
         //String to = "lyzhina.anna@gmail.com";
-        String to = "tatyana.donirofman@gmail.com";
+        String to = email;
         SimpleMailMessage message = new SimpleMailMessage();
 
         message.setFrom(from);
