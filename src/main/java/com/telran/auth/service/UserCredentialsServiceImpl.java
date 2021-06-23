@@ -24,4 +24,9 @@ public class UserCredentialsServiceImpl implements UserCredentialsService {
     public UserCredentialsEntity getUser(String email) {
         return repo.getUser(email);
     }
+
+    @Override
+    public void getHash(String hash, String userEmail) {
+        repo.getHash(hash,userEmail);
+    }
 }

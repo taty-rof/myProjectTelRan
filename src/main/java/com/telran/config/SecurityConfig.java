@@ -57,6 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(new AuthorizationFilter(authenticationManager(),repo))
 //                .and()
                 .authorizeRequests()
+                .mvcMatchers( "/user/registration/{hash}").permitAll()
                 .mvcMatchers( "/user/registration").permitAll()
                 .mvcMatchers( "/user/{userEmail}/password/reset").permitAll()
                 .mvcMatchers( HttpMethod.DELETE,"/user/{userEmail}").hasRole("ADMIN")
