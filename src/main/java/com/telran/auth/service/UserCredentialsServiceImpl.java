@@ -27,6 +27,11 @@ public class UserCredentialsServiceImpl implements UserCredentialsService {
 
     @Override
     public void getHash(String hash, String userEmail) {
-        repo.getHash(hash,userEmail);
+        repo.checkHash(hash,userEmail);
+    }
+
+    @Override
+    public String getHashByEmail(String email) {
+        return repo.getHashByEmail(email);
     }
 }

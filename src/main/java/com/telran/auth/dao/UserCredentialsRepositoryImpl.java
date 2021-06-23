@@ -91,12 +91,22 @@ public class UserCredentialsRepositoryImpl implements UserCredentialsRepo {
     }
 
     @Override
-    public void getHash(String hash, String email) {
+    public void checkHash(String hash, String email) {
         try {
             readLock.lock();
             if (!(hashMap.get(email).equals(hash))) {
                 throw new RuntimeException(String.format("User with username: %s doesn't exist!", email));
             }
+        }finally{
+            readLock.unlock();
+        }
+    }
+
+    @Override
+    public String getHashByEmail(String userEmail) {
+        try {
+            readLock.lock();
+            return hashMap.get(userEmail);
         }finally{
             readLock.unlock();
         }

@@ -44,7 +44,7 @@ public class AuthController {
 
         userCredentialsService.addUser(entity);
 
-//        notificationController.registrationUser(requestUserDto.getEmail());
+        notificationController.registrationUser(requestUserDto.getEmail());
         return "The email has been sent to you. Follow the link to complete registration. ";
     }
 
@@ -70,4 +70,7 @@ public class AuthController {
         // to do
     }
 
+    public String getHashByEmail(String email){
+        return userCredentialsService.getHashByEmail(email);
+    }
 }

@@ -21,15 +21,16 @@ public class NotificationServiceImpl implements NotificationService{
     }
 
     @Override
-    public void sendingRegistrationForm(String email) {
+    public void sendingRegistrationForm(String email, String hash) {
         //String to = "lyzhina.anna@gmail.com";
         String to = email;
+        String link="/user/registration/"+hash;
         SimpleMailMessage message = new SimpleMailMessage();
 
         message.setFrom(from);
         message.setTo(to);
         message.setSubject("Completing registration");
-        message.setText("Please complete registration ... [link]");
+        message.setText("Please complete registration ... "+link);
         message.setSentDate(Date.valueOf(LocalDate.now()));
 
         mailSender.send(message);
