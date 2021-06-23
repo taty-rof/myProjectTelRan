@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 public class NotificationServiceImpl implements NotificationService{
 
     private JavaMailSender mailSender;
+    String baseUrl = "https://telran-project.herokuapp.com";
     private String from = "tatyana.donirofman@gmail.com";
 
     @Autowired
@@ -24,7 +25,7 @@ public class NotificationServiceImpl implements NotificationService{
     public void sendingRegistrationForm(String email, String hash) {
         //String to = "lyzhina.anna@gmail.com";
         String to = email;
-        String link="/user/registration/"+hash;
+        String link=baseUrl+"/user/registration/"+hash;
         SimpleMailMessage message = new SimpleMailMessage();
 
         message.setFrom(from);

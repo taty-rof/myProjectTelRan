@@ -5,6 +5,7 @@ import com.telran.auth.dao.UserCredentialsRepo;
 import com.telran.auth.service.UserCredentialsService;
 import com.telran.messages.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
 @Controller
@@ -15,7 +16,7 @@ public class NotificationController {
 
     @Autowired
     public NotificationController(NotificationService notificationService,
-                                  AuthController authController) {
+                                  @Lazy AuthController authController) {
         this.notificationService=notificationService;
         this.authController=authController;
     }
