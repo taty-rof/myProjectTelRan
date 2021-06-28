@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserCredentialsServiceImpl implements UserCredentialsService {
 
-    UserCredentialsRepo repo;
+    private final UserCredentialsRepo repo;
 
     @Autowired
     public UserCredentialsServiceImpl(UserCredentialsRepo repo){
@@ -26,6 +26,11 @@ public class UserCredentialsServiceImpl implements UserCredentialsService {
     }
 
     @Override
+    public UserCredentialsEntity findUser(String email) {
+        return repo.findUser(email);
+    }
+
+    @Override
     public void getHash(String hash, String userEmail) {
         repo.checkHash(hash,userEmail);
     }
@@ -33,5 +38,10 @@ public class UserCredentialsServiceImpl implements UserCredentialsService {
     @Override
     public String getHashByEmail(String email) {
         return repo.getHashByEmail(email);
+    }
+
+    @Override
+    public void putUser(UserCredentialsEntity entity,String hash) {
+        repo.putUser(entity, hash);
     }
 }

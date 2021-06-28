@@ -31,6 +31,7 @@ public class NotificationServiceImpl implements NotificationService{
         message.setFrom(from);
         message.setTo(to);
         message.setSubject("Completing registration");
+        message.setSubject("Registration");
         message.setText("Please complete registration ... "+link);
         message.setSentDate(Date.valueOf(LocalDate.now()));
 

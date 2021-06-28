@@ -35,6 +35,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         return new User(entity.getUsername(),
                 entity.getPassword(),
+                entity.getEnabled(),
+                true,
+                true,
+                true,
                 AuthorityUtils.createAuthorityList(entity.getRoles()));
     }
 }

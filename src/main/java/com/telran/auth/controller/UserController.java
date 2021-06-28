@@ -19,10 +19,10 @@ import javax.validation.constraints.NotNull;
 @Validated
 public class UserController {
 
-    UserProfileService profileService;
-    UserCredentialsRepo credentialsRepo;
+    private final UserProfileService profileService;
+    private final UserCredentialsRepo credentialsRepo;
     @Value("${admin}")
-    String adminName;
+    private String adminName;
 
     @Autowired
     public UserController(UserProfileService profileService,
@@ -106,6 +106,7 @@ public class UserController {
         if (!requestEmail.equals(userEmail)){
             if (!requestEmail.equals(adminName)) {
                 return false;
+                //add exception
             }
         }
         return true;

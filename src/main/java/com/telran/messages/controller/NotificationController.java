@@ -11,8 +11,8 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class NotificationController {
 
-    private NotificationService notificationService;
-    private AuthController authController;
+    private final NotificationService notificationService;
+    private final AuthController authController;
 
     @Autowired
     public NotificationController(NotificationService notificationService,

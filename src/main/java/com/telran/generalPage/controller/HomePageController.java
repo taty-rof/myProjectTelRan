@@ -10,8 +10,7 @@ import java.util.*;
 
 @CrossOrigin
 @RestController
-public class HomePageController<UserRepository> {
-
+public class HomePageController {
 
     @GetMapping("applications")
     @ResponseStatus(code = HttpStatus.OK)
@@ -19,7 +18,7 @@ public class HomePageController<UserRepository> {
         return List.of(ApplicationDto.builder().id(123).name("Math").build());
     }
 
-    @PostMapping("/message")
+    @PostMapping("message")
     @ResponseStatus(code = HttpStatus.OK)
     public void postMessageFromUser(@Valid @RequestBody MessageFromUserDto messageFromUser){
         // message from user

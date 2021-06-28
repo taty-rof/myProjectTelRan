@@ -1,6 +1,7 @@
 package com.telran.auth.dao;
 
 import com.telran.auth.dao.entity.UserCredentialsEntity;
+import com.telran.auth.dao.entity.UserProfileEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,10 +33,11 @@ public class UserCredentialsRepositoryImpl implements UserCredentialsRepo {
                 .username("admin@mail.com")
                 .password(passwordencoder.encode("12345"))
                 .roles(new String[]{"ROLE_ADMIN","ROLE_USER","ROLE_STUDENT"})
+                .enabled(true)
                 .build();
         allUsersMap.put("admin@mail.com",entity);
         //GENERATING HASH
-        hashMap.put("admin@mail.com",Integer.toString(entity.hashCode()));
+        hashMap.put("admin@mail.com",UUID.randomUUID().toString());
     }
 
     @Override
@@ -47,8 +49,8 @@ public class UserCredentialsRepositoryImpl implements UserCredentialsRepo {
                 throw new RuntimeException(String.format("User with username: %s already exists!", user.getUsername()));
             }
             //GENERATING HASH
-            hashMap.putIfAbsent(user.getUsername(), Integer.toString(user.hashCode()));
-            System.out.println("\n"+Integer.toString(user.hashCode())+"\n");
+            hashMap.putIfAbsent(user.getUsername(),UUID.randomUUID().toString());
+            System.out.println("\n"+UUID.randomUUID().toString()+"\n");
         }finally{
             writeLock.unlock();
         }
@@ -79,6 +81,7 @@ public class UserCredentialsRepositoryImpl implements UserCredentialsRepo {
         if(entity == null){
             throw new RuntimeException(String.format("User with username: %s does not exist",email));
         }
+        entity.setEnabled(true);
         entity.setRoles(new String[]{"ROLE_USER","ROLE_STUDENT"});
         if(allUsersMap.put(email,entity) == null){
 //            throw new UnauthorizedError(String.format("User with username: %s already exists!",email));
@@ -111,4 +114,46 @@ public class UserCredentialsRepositoryImpl implements UserCredentialsRepo {
             readLock.unlock();
         }
     }
+
+    @Override
+    public UserCredentialsEntity findUser(String email) {
+        try {
+            writeLock.lock();
+            UserCredentialsEntity entity = allUsersMap.get(email);
+            if(entity == null){
+                throw new RuntimeException(String.format("User with username: %s does not exist",email));
+            }
+            //GENERATING HASH
+            hashMap.putIfAbsent(email, UUID.randomUUID().toString());
+            System.out.println("\n" + UUID.randomUUID().toString() + "\n");
+            return entity;
+        } finally {
+            writeLock.unlock();
+        }
+    }
+
+    @Override
+    public void putUser(UserCredentialsEntity entity, String hash) {
+        try {
+            writeLock.lock();
+            UserCredentialsEntity removed = allUsersMap.remove(entity.getUsername());
+            if(removed == null){
+//            throw new ContactNotFoundException("Contact with id: %s not found".formatted(contact.getId()));
+                throw new RuntimeException(String.format("Contact with id: %s not found", entity.getUsername()));
+            }
+            if(!(hashMap.get(entity.getUsername()).equals(hash))){
+                allUsersMap.put(removed.getUsername(),removed);
+                System.out.println(allUsersMap.get("\n"+entity.getUsername()));
+                System.out.println(hashMap.get(entity.getUsername())+"\n");
+                throw new RuntimeException("Something went wrong, please send request again");
+            }
+            entity.setRoles(removed.getRoles());
+            entity.setEnabled(removed.getEnabled());
+            allUsersMap.put(entity.getUsername(), entity);
+            hashMap.remove(entity.getUsername());
+        }finally{
+            writeLock.unlock();
+        }
+    }
+
 }

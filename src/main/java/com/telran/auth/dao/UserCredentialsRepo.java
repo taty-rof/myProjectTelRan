@@ -8,6 +8,6 @@ public interface UserCredentialsRepo {
     void addRoleStudent(String email);
     void checkHash(String hash, String userEmail);
     String getHashByEmail(String userEmail);
-
-
+    UserCredentialsEntity findUser(String email);
+    void putUser(UserCredentialsEntity entity, String hash);
 }

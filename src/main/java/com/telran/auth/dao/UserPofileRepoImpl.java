@@ -66,13 +66,11 @@ public class UserPofileRepoImpl implements UserPofileRepo {
         try {
             writeLock.lock();
             UserProfileEntity removed = allUsersMap.remove(user.getEmail());
-            System.out.println("\nUser + "+removed);
             if (removed == null) {
 //            throw new ContactNotFoundException("Contact with id: %s not found".formatted(contact.getId()));
                 throw new RuntimeException(String.format("Contact with id: %s not found", user.getEmail()));
             }
             if (!(removed.getEmail().equals(user.getEmail())) || !(removed.getId().equals(user.getId()))) {
-                System.out.println("We can not update "+removed+"\n"+user);
                 allUsersMap.put(removed.getEmail(), removed);
 //            throw new ContactAlreadyExistException("Contact with email: %s already exists".formatted(user.getEmail()));
                 throw new RuntimeException("Contact with email: %s already exists");

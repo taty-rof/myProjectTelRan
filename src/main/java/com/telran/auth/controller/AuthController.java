@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 public class AuthController {
 
-    UserCredentialsService userCredentialsService;
-    PasswordEncoder passwordEncoder;
-    NotificationController notificationController;
+    private final UserCredentialsService userCredentialsService;
+    private final PasswordEncoder passwordEncoder;
+    private final NotificationController notificationController;
 
     @Autowired
     public AuthController(UserCredentialsService userCredentialsService,
@@ -39,12 +39,13 @@ public class AuthController {
         UserCredentialsEntity entity =  UserCredentialsEntity.builder()
                 .username(requestUserDto.getEmail())
                 .password(passwordEncoder.encode(requestUserDto.getPassword()))
+                .enabled(false)
                 .roles(new String[]{"ROLE_USER"})
                 .build();
 
         userCredentialsService.addUser(entity);
-        notificationController.registrationUser(requestUserDto.getEmail());
-        return "The email has been sent to you. Follow the link to complete registration. ";
+//        notificationController.registrationUser(requestUserDto.getEmail());
+        return ""+getHashByEmail(entity.getUsername())+" The email has been sent to you. Follow the link to complete registration. ";
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -57,17 +58,30 @@ public class AuthController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("{userEmail}/password/reset")
     public String passwordRecovery(@PathVariable String userEmail){
-        UserCredentialsEntity entity = userCredentialsService.getUser(userEmail);
+        UserCredentialsEntity entity = userCredentialsService.findUser(userEmail);
+
         if (entity!=null){
-            notificationController.sendingNewPassword(userEmail);
+            //notificationController.sendingNewPassword(userEmail);
         }
-      return "A temporary password has been sent to the specified mail";
+      return ""+getHashByEmail(userEmail)+"  A temporary password has been sent to the specified mail";
     }
 
-    @PutMapping("{userEmail}/password/reset")
-    public void updateUserPassword (@PathVariable String userEmail){
-        // to do
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("{userEmail}/password/reset/{hash}")
+    public void updateUserPassword(@PathVariable String userEmail,
+                                   @PathVariable String hash,
+                                   @RequestBody UserCredentialsDto dto){
+        if (!dto.getEmail().equals(userEmail)){
+            throw new RuntimeException("You can't get this user profile");
+        }
+        UserCredentialsEntity entity =  UserCredentialsEntity.builder()
+                .username(dto.getEmail())
+                .password(passwordEncoder.encode(dto.getPassword()))
+                .build();
+        userCredentialsService.putUser(entity, hash);
+
     }
+
 
     public String getHashByEmail(String email){
         return userCredentialsService.getHashByEmail(email);
