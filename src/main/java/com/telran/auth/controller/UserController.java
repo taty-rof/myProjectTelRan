@@ -21,8 +21,6 @@ public class UserController {
 
     private final UserProfileService profileService;
     private final UserCredentialsRepo credentialsRepo;
-    @Value("${admin}")
-    private String adminName;
 
     @Autowired
     public UserController(UserProfileService profileService,
@@ -57,10 +55,6 @@ public class UserController {
     public void updateUser(@NotNull @PathVariable String userEmail,
                            @RequestBody UserProfileDto user,
                            HttpServletRequest request){
-        if (!checkingUser(userEmail,request.getUserPrincipal().getName())
-        && !userEmail.equals(user.getEmail())){
-            throw new RuntimeException("You can't update this user profile");
-        }
         UserProfileEntity entity = UserProfileEntity.builder()
                 .id(user.getId())
                 .firstName(user.getFirstName())
@@ -72,16 +66,14 @@ public class UserController {
                 .apps(user.getApps())
                 .stillStudent(Boolean.TRUE)
                 .build();
-        profileService.updateUser(entity);
+        profileService.updateUser(entity, userEmail, request.getUserPrincipal().getName());
     }
 //    @RolesAllowed({"ADMIN","STUDENT"})
     @GetMapping("{userEmail}")
     public UserProfileDto getUserByEmail(@NotNull @PathVariable String userEmail,
                                          HttpServletRequest request){
-       if (!checkingUser(userEmail,request.getUserPrincipal().getName())){
-            throw new RuntimeException("You can't get this user profile");
-        }
-        UserProfileEntity entity = profileService.getUser(userEmail);
+        UserProfileEntity entity = profileService.getUser(userEmail,
+                request.getUserPrincipal().getName());
         return UserProfileDto.builder()
                 .id(entity.getId())
                 .firstName(entity.getFirstName())
@@ -101,14 +93,4 @@ public class UserController {
         profileService.deleteUser(userEmail);
     }
 
-//**********Checking if userCredential's email equals to pathVariable email, but ADMIN can get info*************
-    private Boolean checkingUser(String userEmail, String requestEmail){
-        if (!requestEmail.equals(userEmail)){
-            if (!requestEmail.equals(adminName)) {
-                return false;
-                //add exception
-            }
-        }
-        return true;
-    }
 }

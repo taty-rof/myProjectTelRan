@@ -21,9 +21,7 @@ public class StatisticsController {
     @GetMapping("{userEmail}")
     public String getUserStatisticsByEmail(@PathVariable @Email String userEmail,
                                            HttpServletRequest request ){
-        if (!checkingUser(userEmail,request.getUserPrincipal().getName())){
-            throw new RuntimeException("You can't get this user profile");
-        }
+
         return "{\n" +
                 "  \"id\": \"string\",\n" +
                 "  \"applications\": [\n" +
@@ -39,9 +37,7 @@ public class StatisticsController {
     public String getUserStatisticsByApplicationId(@PathVariable @Email String userEmail,
                                                   @PathVariable @NotNull String appId,
                                                     HttpServletRequest request ){
-        if (!checkingUser(userEmail,request.getUserPrincipal().getName())){
-            throw new RuntimeException("You can't get this user profile");
-        }
+
         return "{\n" +
                 "  \"id\": 0,\n" +
                 "  \"theory\": [\n" +
@@ -81,9 +77,6 @@ public class StatisticsController {
     public String getExercisesStatisticsByApplicationId(@PathVariable @Email String userEmail,
                                                      @PathVariable @NotNull String appId,
                                                      HttpServletRequest request ){
-        if (!checkingUser(userEmail,request.getUserPrincipal().getName())){
-            throw new RuntimeException("You can't get this user profile");
-        }
         return "{\n" +
                 "  \"exId\": 0,\n" +
                 "  \"level\": 0,\n" +
@@ -97,9 +90,6 @@ public class StatisticsController {
     public String getExamStatisticsByApplicationId(@PathVariable @Email String userEmail,
                                                         @PathVariable @NotNull String appId,
                                                         HttpServletRequest request ){
-        if (!checkingUser(userEmail,request.getUserPrincipal().getName())){
-            throw new RuntimeException("You can't get this user profile");
-        }
         return "{\n" +
                 "  \"examId\": 0,\n" +
                 "  \"gradeOverall\": 0,\n" +
