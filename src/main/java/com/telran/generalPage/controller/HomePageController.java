@@ -15,7 +15,8 @@ public class HomePageController {
     @GetMapping("applications")
     @ResponseStatus(code = HttpStatus.OK)
     public List<ApplicationDto> getAllProductsOfCompany(){
-        return List.of(ApplicationDto.builder().id(123).name("Math").build());
+        return List.of(ApplicationDto.builder().id(123).name("Math").build(),
+                ApplicationDto.builder().id(234).name("Programming").build());
     }
 
     @PostMapping("message")

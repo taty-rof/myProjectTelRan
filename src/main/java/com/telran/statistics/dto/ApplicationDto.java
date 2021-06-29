@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class Application {
+public class ApplicationDto {
     int id;
     String name;
     String category;

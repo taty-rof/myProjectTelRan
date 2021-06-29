@@ -35,13 +35,13 @@ public class UserPofileRepoImpl implements UserPofileRepo {
     public String addUser(UserProfileEntity user) {
         try{
             writeLock.lock();
-            String id = UUID.randomUUID().toString();
-        user.setId(id);
+//            String id = UUID.randomUUID().toString();
+//        user.setId(id);
         if(allUsersMap.putIfAbsent(user.getEmail(), user) != null){
 //            throw new UnauthorizedError(String.format("User with username: %s already exists!",user.getEmail()));
             throw new RuntimeException(String.format("User with username: %s already exists!",user.getEmail()));
         }
-        return id;
+        return user.getEmail();
         } finally {
             writeLock.unlock();
         }

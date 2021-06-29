@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
-@ComponentScan(basePackages = "com.telran")
+//@ComponentScan(basePackages = "com.telran")
 @SpringBootApplication
 public class HiMathApplication {
 

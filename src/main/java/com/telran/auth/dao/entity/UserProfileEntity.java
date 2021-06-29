@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @Builder
 @ToString
+@EqualsAndHashCode(of = "email")
 public class UserProfileEntity {
     @NotNull(message = "Id cannot be null")
     String id;

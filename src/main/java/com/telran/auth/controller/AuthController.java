@@ -1,7 +1,6 @@
 package com.telran.auth.controller;
 
 import com.telran.auth.dao.entity.UserCredentialsEntity;
-import com.telran.auth.dao.UserCredentialsRepo;
 import com.telran.auth.dto.UserCredentialsDto;
 import com.telran.auth.service.UserCredentialsService;
 import com.telran.messages.controller.NotificationController;
@@ -11,6 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.*;
+import javax.validation.constraints.*;
+
 
 @CrossOrigin
 @RestController
@@ -50,14 +53,14 @@ public class AuthController {
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("registration/{hash}")
-    public void checkHash(@PathVariable String hash, @RequestBody String userEmail){
+    public void checkHash(@PathVariable String hash, @RequestBody @Email String userEmail){
         userCredentialsService.getHash(hash,userEmail);
     }
 
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("{userEmail}/password/reset")
-    public String passwordRecovery(@PathVariable String userEmail){
+    public String passwordRecovery(@PathVariable @Email String userEmail){
         UserCredentialsEntity entity = userCredentialsService.findUser(userEmail);
 
         if (entity!=null){
@@ -68,9 +71,9 @@ public class AuthController {
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("{userEmail}/password/reset/{hash}")
-    public void updateUserPassword(@PathVariable String userEmail,
-                                   @PathVariable String hash,
-                                   @RequestBody UserCredentialsDto dto){
+    public void updateUserPassword(@PathVariable @Email String userEmail,
+                                   @PathVariable @NotNull String hash,
+                                   @RequestBody @Valid UserCredentialsDto dto){
         if (!dto.getEmail().equals(userEmail)){
             throw new RuntimeException("You can't get this user profile");
         }
@@ -83,7 +86,7 @@ public class AuthController {
     }
 
 
-    public String getHashByEmail(String email){
+    public String getHashByEmail(@NotNull String email){
         return userCredentialsService.getHashByEmail(email);
     }
 }
