@@ -4,7 +4,6 @@ import com.telran.auth.dao.entity.UserCredentialsEntity;
 import com.telran.auth.dto.UserCredentialsDto;
 import com.telran.auth.service.UserCredentialsService;
 import com.telran.messages.controller.NotificationController;
-import com.telran.messages.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,7 +36,7 @@ public class AuthController {
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("registration")
-    public String registrationNewUser(@RequestBody UserCredentialsDto requestUserDto){
+    public String registrationNewUser(@RequestBody @Valid UserCredentialsDto requestUserDto){
 
         UserCredentialsEntity entity =  UserCredentialsEntity.builder()
                 .username(requestUserDto.getEmail())
@@ -47,13 +46,14 @@ public class AuthController {
                 .build();
 
         userCredentialsService.addUser(entity);
+//        *** To add in production!!! ***
 //        notificationController.registrationUser(requestUserDto.getEmail());
         return ""+getHashByEmail(entity.getUsername())+" The email has been sent to you. Follow the link to complete registration. ";
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("registration/{hash}")
-    public void checkHash(@PathVariable String hash, @RequestBody @Email String userEmail){
+    public void checkHash(@PathVariable @NotNull String hash, @RequestBody @Email String userEmail){
         userCredentialsService.getHash(hash,userEmail);
     }
 

@@ -3,6 +3,7 @@ package com.telran.generalPage;
 import com.telran.generalPage.controller.HomePageController;
 import com.telran.generalPage.dto.ApplicationDto;
 import com.telran.generalPage.dto.MessageFromUserDto;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,7 +33,7 @@ public class HomePageControllerTest {
         assertNotNull(list);
         assertEquals(expectedList.size(), list.size() );
         for (int i = 0; i < list.size(); i++) {
-            assertEquals(list.get(i),expectedList.get(i));
+            Assertions.assertEquals(list.get(i),expectedList.get(i));
         }
     }
 
