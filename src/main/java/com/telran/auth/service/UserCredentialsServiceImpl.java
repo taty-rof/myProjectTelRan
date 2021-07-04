@@ -27,7 +27,7 @@ public class UserCredentialsServiceImpl implements UserCredentialsService {
 
     @Override
     public UserCredentialsEntity findUser(String email) {
-        return repo.findUser(email);
+        return repo.postHashIfForgetPassword(email);
     }
 
     @Override

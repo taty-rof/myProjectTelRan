@@ -12,8 +12,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-@Repository
-@Primary
+//@Repository
+//@Primary
 public class UserCredentialsRepositoryImpl implements UserCredentialsRepo {
 
     private final Map<String, UserCredentialsEntity> allUsersMap = new ConcurrentHashMap<>();
@@ -116,7 +116,7 @@ public class UserCredentialsRepositoryImpl implements UserCredentialsRepo {
     }
 
     @Override
-    public UserCredentialsEntity findUser(String email) {
+    public UserCredentialsEntity postHashIfForgetPassword(String email) {
         try {
             writeLock.lock();
             UserCredentialsEntity entity = allUsersMap.get(email);
