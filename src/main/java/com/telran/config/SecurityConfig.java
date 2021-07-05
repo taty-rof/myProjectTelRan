@@ -61,9 +61,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .mvcMatchers( "/user/registration").permitAll()
                 .mvcMatchers( "/user/{userEmail}/password/reset").permitAll()
 
-                .mvcMatchers( HttpMethod.DELETE,"/user/{userEmail}").hasRole("ADMIN")
+               /* .mvcMatchers( HttpMethod.DELETE,"/user/{userEmail}").hasRole("ADMIN")
                 .mvcMatchers( "/user/{userEmail}").hasRole("STUDENT")
-                .mvcMatchers(HttpMethod.POST,"/user/addUser").hasRole("ADMIN")
+                .mvcMatchers(HttpMethod.POST,"/user/addUser").hasRole("ADMIN")*/
 
                 .mvcMatchers( "/statistics/**").hasRole("STUDENT")
                 .anyRequest().permitAll();

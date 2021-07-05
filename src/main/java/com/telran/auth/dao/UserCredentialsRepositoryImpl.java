@@ -14,9 +14,9 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 //@Repository
 //@Primary
-public class UserCredentialsRepositoryImpl implements UserCredentialsRepo {
+public class UserCredentialsRepositoryImpl  {
 
-    private final Map<String, UserCredentialsEntity> allUsersMap = new ConcurrentHashMap<>();
+   /* private final Map<String, UserCredentialsEntity> allUsersMap = new ConcurrentHashMap<>();
     private final Map<String, String> hashMap = new ConcurrentHashMap<>();
 
     private final ReadWriteLock rwLock = new ReentrantReadWriteLock();
@@ -155,5 +155,5 @@ public class UserCredentialsRepositoryImpl implements UserCredentialsRepo {
             writeLock.unlock();
         }
     }
-
+*/
 }

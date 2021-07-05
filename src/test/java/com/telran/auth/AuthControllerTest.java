@@ -27,7 +27,7 @@ public class AuthControllerTest {
 
     @Test
     public void registrationNewUser_WithUniqueContact_ExpectedStringText(){
-        doNothing().when(userCredentialsRepo).addUser(Mockito.any(UserCredentialsEntity.class));
+        doNothing().when(userCredentialsRepo).save(Mockito.any(UserCredentialsEntity.class));
         UserCredentialsDto dto = UserCredentialsDto.builder()
                 .email("tatyana@mail.com")
                 .password("54321")
@@ -41,7 +41,7 @@ public class AuthControllerTest {
 
     @Test
     public void registrationNewUser_WithValidationError_ExpectedException(){
-        doNothing().when(userCredentialsRepo).addUser(Mockito.any(UserCredentialsEntity.class));
+        doNothing().when(userCredentialsRepo).save(Mockito.any(UserCredentialsEntity.class));
         UserCredentialsDto dto = UserCredentialsDto.builder()
                 .email("tatyana")
                 .password("54321")

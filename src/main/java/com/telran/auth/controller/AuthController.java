@@ -39,7 +39,7 @@ public class AuthController {
     public String registrationNewUser(@RequestBody @Valid UserCredentialsDto requestUserDto){
 
         UserCredentialsEntity entity =  UserCredentialsEntity.builder()
-                .username(requestUserDto.getEmail())
+                .email(requestUserDto.getEmail())
                 .password(passwordEncoder.encode(requestUserDto.getPassword()))
                 .enabled(false)
                 .roles(new String[]{"ROLE_USER"})
@@ -48,7 +48,7 @@ public class AuthController {
         userCredentialsService.addUser(entity);
 //        *** To add in production!!! ***
 //        notificationController.registrationUser(requestUserDto.getEmail());
-        return ""+getHashByEmail(entity.getUsername())+" The email has been sent to you. Follow the link to complete registration. ";
+        return ""+getHashByEmail(entity.getEmail())+" The email has been sent to you. Follow the link to complete registration. ";
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -61,7 +61,7 @@ public class AuthController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("{userEmail}/password/reset")
     public String passwordRecovery(@PathVariable @Email String userEmail){
-        UserCredentialsEntity entity = userCredentialsService.findUser(userEmail);
+        UserCredentialsEntity entity = userCredentialsService.forgetPassword(userEmail);
 
         if (entity!=null){
             //notificationController.sendingNewPassword(userEmail);
@@ -78,10 +78,10 @@ public class AuthController {
             throw new RuntimeException("You can't get this user profile");
         }
         UserCredentialsEntity entity =  UserCredentialsEntity.builder()
-                .username(dto.getEmail())
+                .email(dto.getEmail())
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .build();
-        userCredentialsService.putUser(entity, hash);
+//        userCredentialsService.putUser(entity, hash);
 
     }
 

@@ -13,8 +13,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 @Primary
+@Transactional
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     UserCredentialsRepo userCredentialsRepository;
@@ -26,14 +29,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 
     @Override
-    public UserDetails loadUserByUsername(String username) {
-        UserCredentialsEntity entity = userCredentialsRepository.getUser(username);
+    public UserDetails loadUserByUsername(String email) {
+        UserCredentialsEntity entity = userCredentialsRepository.findById(email).get();
         System.out.println("From USERDETAILSERVICE "+entity);
         if (entity == null){
-            throw new UsernameNotFoundException(username);
+            throw new UsernameNotFoundException(email);
         }
 
-        return new User(entity.getUsername(),
+        return new User(entity.getEmail(),
                 entity.getPassword(),
                 entity.getEnabled(),
                 true,

@@ -13,12 +13,10 @@ import javax.persistence.*;
 public class UserCredentialsEntity {
     @Id
     @Column(unique=true,nullable=false)
-    String username;
+    String email;
     @Column(nullable=false)
     String password;
     String[] roles;
     Boolean enabled;
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "hashCode",nullable = true)
-    UserHashEntity hashCode;
+    String hashCode;
 }

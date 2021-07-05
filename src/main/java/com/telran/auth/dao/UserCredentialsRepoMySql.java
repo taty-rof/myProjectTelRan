@@ -1,19 +1,10 @@
 package com.telran.auth.dao;
 
-import com.telran.auth.dao.entity.UserCredentialsEntity;
-import com.telran.auth.dao.entity.UserHashEntity;
-import org.springframework.stereotype.Repository;
+//@Repository
+//@Transactional
+public class UserCredentialsRepoMySql {
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
-import java.util.UUID;
-
-@Repository
-@Transactional
-public class UserCredentialsRepoMySql implements UserCredentialsRepo{
-
-    @PersistenceContext
+    /*@PersistenceContext
     EntityManager entityManager;
 
     @Override
@@ -88,5 +79,5 @@ public class UserCredentialsRepoMySql implements UserCredentialsRepo{
     @Override
     public void putUser(UserCredentialsEntity entity, String hash) {
 
-    }
+    }*/
 }

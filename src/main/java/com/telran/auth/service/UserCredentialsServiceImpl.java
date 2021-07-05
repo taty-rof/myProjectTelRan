@@ -5,6 +5,8 @@ import com.telran.auth.dao.entity.UserCredentialsEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class UserCredentialsServiceImpl implements UserCredentialsService {
 
@@ -17,31 +19,42 @@ public class UserCredentialsServiceImpl implements UserCredentialsService {
 
     @Override
     public void addUser(UserCredentialsEntity entity) {
-        repo.addUser(entity);
+        entity.setHashCode(UUID.randomUUID().toString());
+        repo.save(entity);
     }
 
     @Override
     public UserCredentialsEntity getUser(String email) {
-        return repo.getUser(email);
+        return repo.findById(email).get();
     }
 
     @Override
-    public UserCredentialsEntity findUser(String email) {
-        return repo.postHashIfForgetPassword(email);
+    public UserCredentialsEntity forgetPassword(String email) {
+        UserCredentialsEntity entity = repo.findById(email).get();
+        entity.setHashCode(UUID.randomUUID().toString());
+        repo.save(entity);
+        return null;
     }
 
     @Override
-    public void getHash(String hash, String userEmail) {
-        repo.checkHash(hash,userEmail);
+    public void getHash(String hash, String email) {
+
     }
 
     @Override
     public String getHashByEmail(String email) {
-        return repo.getHashByEmail(email);
+        return repo.findById(email).get().getHashCode();
     }
 
     @Override
-    public void putUser(UserCredentialsEntity entity,String hash) {
-        repo.putUser(entity, hash);
+    public void putUser(UserCredentialsEntity entity, String hash) {
+        UserCredentialsEntity entityFromRepo = repo.findById(entity.getEmail()).get();
+        if (!entityFromRepo.getHashCode().equals(hash)){
+            throw new RuntimeException("Link has problem");
+        }
+        entity.setHashCode(null);
+        repo.save(entity);
     }
+
+
 }

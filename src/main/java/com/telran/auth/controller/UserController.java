@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 
-@CrossOrigin
+/*@CrossOrigin
 @RestController
 @RequestMapping("user")
-@Validated
+@Validated*/
 public class UserController {
 
     private final UserProfileService profileService;
@@ -45,7 +45,7 @@ public class UserController {
                 .build();
         String id = profileService.addUser(entity);
         if (id!=null){
-            credentialsRepo.addRoleStudent(entity.getEmail());
+//            credentialsRepo.addRoleStudent(entity.getEmail());
         }
         return id;
     }

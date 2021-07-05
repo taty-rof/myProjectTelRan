@@ -6,7 +6,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -66,7 +65,7 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
         if (email == null){
             return null;
         }
-        UserCredentialsEntity entity = repository.getUser(email);
+        UserCredentialsEntity entity = repository.findById(email).get();
         return new UsernamePasswordAuthenticationToken(
                 email,
                 null,
