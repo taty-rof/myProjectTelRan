@@ -8,9 +8,9 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.*;
 
-@Repository
-public class UserPofileRepoImpl implements UserPofileRepo {
 
+public class UserPofileRepoImpl {
+/*
     private final Map<String, UserProfileEntity> allUsersMap = new ConcurrentHashMap<>();
     private final ReadWriteLock rwLock = new ReentrantReadWriteLock();
     private final Lock readLock = rwLock.readLock();
@@ -93,6 +93,6 @@ public class UserPofileRepoImpl implements UserPofileRepo {
             writeLock.unlock();
         }
 
-    }
+    }*/
 
 }

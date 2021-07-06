@@ -19,7 +19,7 @@ public class UserCredentialsServiceImpl implements UserCredentialsService {
 
     @Override
     public void addUser(UserCredentialsEntity entity) {
-        entity.setHashCode(UUID.randomUUID().toString());
+        entity.setHashCode("registration_"+UUID.randomUUID().toString());
         repo.save(entity);
     }
 
@@ -31,29 +31,44 @@ public class UserCredentialsServiceImpl implements UserCredentialsService {
     @Override
     public UserCredentialsEntity forgetPassword(String email) {
         UserCredentialsEntity entity = repo.findById(email).get();
-        entity.setHashCode(UUID.randomUUID().toString());
-        repo.save(entity);
-        return null;
+        if (entity.getEnabled()){
+            entity.setHashCode(UUID.randomUUID().toString());
+            repo.save(entity);
+            return entity;
+        }
+        throw new RuntimeException("Please complete your registration");
     }
 
     @Override
-    public void getHash(String hash, String email) {
+    public void getHashByEmail(String hash, String email) {
+        UserCredentialsEntity entityFromRepo = repo.findById(email).get();
+        if (!entityFromRepo.getHashCode().equals(hash) || !hash.startsWith("registration_")){
+            throw new RuntimeException("The link has problem");
+        }
+        if (!entityFromRepo.getEnabled()){
+            entityFromRepo.setEnabled(true);
+            repo.save(entityFromRepo);
+        }
 
+    }
+
+    @Override
+    public void putUser(String email, UserCredentialsEntity entity, String hash) {
+        UserCredentialsEntity entityFromRepo = repo.findById(email).get();
+        if (!entityFromRepo.getHashCode().equals(hash) ||
+                hash.startsWith("registration_") ||
+                !entityFromRepo.getEnabled() ||
+                !entity.equals(entityFromRepo)){
+            throw new RuntimeException("The link has problem");
+        }
+        entityFromRepo.setPassword(entity.getPassword());
+        entityFromRepo.setHashCode(null);
+        repo.save(entityFromRepo);
     }
 
     @Override
     public String getHashByEmail(String email) {
         return repo.findById(email).get().getHashCode();
-    }
-
-    @Override
-    public void putUser(UserCredentialsEntity entity, String hash) {
-        UserCredentialsEntity entityFromRepo = repo.findById(entity.getEmail()).get();
-        if (!entityFromRepo.getHashCode().equals(hash)){
-            throw new RuntimeException("Link has problem");
-        }
-        entity.setHashCode(null);
-        repo.save(entity);
     }
 
 

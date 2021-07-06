@@ -1,10 +1,8 @@
 package com.telran.auth.dao;
 
 import com.telran.auth.dao.entity.UserProfileEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserPofileRepo {
-    String addUser(UserProfileEntity user);
-    UserProfileEntity getUser(String email);
-    void updateUser(UserProfileEntity user);
-    void deleteUser(String userEmail);
+
+public interface UserPofileRepo extends JpaRepository<UserProfileEntity,String> {
 }

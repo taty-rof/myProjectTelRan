@@ -8,6 +8,7 @@ import javax.persistence.*;
 @Setter
 @Builder
 @ToString
+@EqualsAndHashCode(of="email")
 @Entity
 @Table(name="users_table")
 public class UserCredentialsEntity {

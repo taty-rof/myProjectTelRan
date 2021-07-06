@@ -6,8 +6,8 @@ public interface UserCredentialsService {
     void addUser(UserCredentialsEntity entity);
     UserCredentialsEntity getUser(String email);
     UserCredentialsEntity forgetPassword(String email);
-    void getHash(String hash, String email);
+    void getHashByEmail(String hash, String email);
     String getHashByEmail(String email);
-    void putUser(UserCredentialsEntity entity, String hash);
+    void putUser(String email, UserCredentialsEntity entity, String hash);
 
 }

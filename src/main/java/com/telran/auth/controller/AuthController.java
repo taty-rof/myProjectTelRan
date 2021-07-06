@@ -1,7 +1,7 @@
 package com.telran.auth.controller;
 
 import com.telran.auth.dao.entity.UserCredentialsEntity;
-import com.telran.auth.dto.UserCredentialsDto;
+import com.telran.auth.controller.dto.UserCredentialsDto;
 import com.telran.auth.service.UserCredentialsService;
 import com.telran.messages.controller.NotificationController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,13 +48,15 @@ public class AuthController {
         userCredentialsService.addUser(entity);
 //        *** To add in production!!! ***
 //        notificationController.registrationUser(requestUserDto.getEmail());
-        return ""+getHashByEmail(entity.getEmail())+" The email has been sent to you. Follow the link to complete registration. ";
+        return ""
+                +getHashByEmail(entity.getEmail())
+                +" The email has been sent to you. Follow the link to complete registration. ";
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("registration/{hash}")
     public void checkHash(@PathVariable @NotNull String hash, @RequestBody @Email String userEmail){
-        userCredentialsService.getHash(hash,userEmail);
+        userCredentialsService.getHashByEmail(hash,userEmail);
     }
 
 
@@ -64,6 +66,9 @@ public class AuthController {
         UserCredentialsEntity entity = userCredentialsService.forgetPassword(userEmail);
 
         if (entity!=null){
+
+            //**** izmeniti !!!!! na entity
+
             //notificationController.sendingNewPassword(userEmail);
         }
       return ""+getHashByEmail(userEmail)+"  A temporary password has been sent to the specified mail";
@@ -74,14 +79,11 @@ public class AuthController {
     public void updateUserPassword(@PathVariable @Email String userEmail,
                                    @PathVariable @NotNull String hash,
                                    @RequestBody @Valid UserCredentialsDto dto){
-        if (!dto.getEmail().equals(userEmail)){
-            throw new RuntimeException("You can't get this user profile");
-        }
         UserCredentialsEntity entity =  UserCredentialsEntity.builder()
                 .email(dto.getEmail())
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .build();
-//        userCredentialsService.putUser(entity, hash);
+        userCredentialsService.putUser(userEmail, entity, hash);
 
     }
 

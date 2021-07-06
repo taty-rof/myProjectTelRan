@@ -2,6 +2,9 @@ package com.telran.auth.dao.entity;
 
 import lombok.*;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
@@ -12,9 +15,9 @@ import javax.validation.constraints.NotNull;
 @Builder
 @ToString
 @EqualsAndHashCode(of = "email")
+@Entity
+@Table(name="students_table")
 public class UserProfileEntity {
-    @NotNull(message = "Id cannot be null")
-    String id;
 
     @NotNull(message = "First name cannot be null")
     String firstName;
@@ -22,11 +25,9 @@ public class UserProfileEntity {
     @NotNull(message = "Last name cannot be null")
     String lastName;
 
+    @Id
     @Email(message = "Email should be valid")
     String email;
-
-//    @NotNull(message = "Password cannot be null")
-//    String password;
 
     @NotNull(message = "Institute cannot be null")
     String institute;

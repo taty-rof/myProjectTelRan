@@ -2,37 +2,37 @@ package com.telran.auth.controller;
 
 import com.telran.auth.dao.UserCredentialsRepo;
 import com.telran.auth.dao.entity.UserProfileEntity;
-import com.telran.auth.dto.UserProfileDto;
+import com.telran.auth.controller.dto.UserProfileDto;
 import com.telran.auth.service.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.NotNull;
+import javax.validation.*;
+import javax.validation.constraints.*;
 
-/*@CrossOrigin
+@CrossOrigin
 @RestController
 @RequestMapping("user")
-@Validated*/
+@Validated
 public class UserController {
 
     private final UserProfileService profileService;
-    private final UserCredentialsRepo credentialsRepo;
+//    private final UserCredentialsRepo credentialsRepo;
 
     @Autowired
-    public UserController(UserProfileService profileService,
-                          UserCredentialsRepo credentialsRepo){
+    public UserController(UserProfileService profileService
+//                          ,UserCredentialsRepo credentialsRepo
+    ){
         this.profileService=profileService;
-        this.credentialsRepo=credentialsRepo;
+//        this.credentialsRepo=credentialsRepo;
     }
 
-//    @RolesAllowed("ROLE_ADMIN")
     @PostMapping("addUser")
     @ResponseStatus(HttpStatus.CREATED)
-    public String addUser(@RequestBody UserProfileDto user){
+    public String addUser(@RequestBody @Valid UserProfileDto user) {
         UserProfileEntity entity = UserProfileEntity.builder()
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
@@ -43,11 +43,7 @@ public class UserController {
                 .apps(user.getApps())
                 .stillStudent(Boolean.TRUE)
                 .build();
-        String id = profileService.addUser(entity);
-        if (id!=null){
-//            credentialsRepo.addRoleStudent(entity.getEmail());
-        }
-        return id;
+        return profileService.addUser(entity);
     }
 
     @PutMapping("{userEmail}")
@@ -56,7 +52,6 @@ public class UserController {
                            @RequestBody UserProfileDto user,
                            HttpServletRequest request){
         UserProfileEntity entity = UserProfileEntity.builder()
-                .id(user.getId())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())
@@ -68,14 +63,13 @@ public class UserController {
                 .build();
         profileService.updateUser(entity, userEmail, request.getUserPrincipal().getName());
     }
-//    @RolesAllowed({"ADMIN","STUDENT"})
+
     @GetMapping("{userEmail}")
     public UserProfileDto getUserByEmail(@NotNull @PathVariable String userEmail,
                                          HttpServletRequest request){
         UserProfileEntity entity = profileService.getUser(userEmail,
                 request.getUserPrincipal().getName());
         return UserProfileDto.builder()
-                .id(entity.getId())
                 .firstName(entity.getFirstName())
                 .lastName(entity.getLastName())
                 .email(entity.getEmail())

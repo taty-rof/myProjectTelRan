@@ -3,14 +3,11 @@ package com.telran.auth;
 import com.telran.auth.controller.AuthController;
 import com.telran.auth.dao.UserCredentialsRepo;
 import com.telran.auth.dao.entity.UserCredentialsEntity;
-import com.telran.auth.dto.UserCredentialsDto;
+import com.telran.auth.controller.dto.UserCredentialsDto;
 import org.junit.jupiter.api.*;
 import org.mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.event.annotation.BeforeTestMethod;
-import org.springframework.web.client.*;
 
 import javax.validation.ValidationException;
 

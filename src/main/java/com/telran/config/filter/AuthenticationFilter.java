@@ -1,7 +1,7 @@
 package com.telran.config.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.telran.auth.dto.*;
+import com.telran.auth.controller.dto.*;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;

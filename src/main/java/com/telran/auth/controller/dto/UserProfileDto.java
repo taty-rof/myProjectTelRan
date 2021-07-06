@@ -1,4 +1,4 @@
-package com.telran.auth.dto;
+package com.telran.auth.controller.dto;
 
 import lombok.*;
 
@@ -11,8 +11,6 @@ import javax.validation.constraints.NotNull;
 @Setter
 @Builder
 public class UserProfileDto {
-    @NotNull(message = "Id cannot be null")
-    String id;
 
     @NotNull(message = "First name cannot be null")
     String firstName;
