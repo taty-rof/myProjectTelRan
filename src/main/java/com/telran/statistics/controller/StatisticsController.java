@@ -1,5 +1,8 @@
 package com.telran.statistics.controller;
 
+import com.telran.statistics.service.StatisticsService;
+import com.telran.statistics.service.model.TheoryModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.validation.annotation.Validated;
@@ -16,6 +19,12 @@ public class StatisticsController {
 
     @Value("${admin}")
     private String adminName;
+    final private StatisticsService service;
+
+    @Autowired
+    public StatisticsController(StatisticsService service){
+        this.service=service;
+    }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("{userEmail}")
@@ -63,13 +72,15 @@ public class StatisticsController {
     public String getTheoryStatisticsByApplicationId(@PathVariable @Email String userEmail,
                                                    @PathVariable @NotNull String appId,
                                                    HttpServletRequest request ){
-        if (!checkingUser(userEmail,request.getUserPrincipal().getName())){
+        /*if (!checkingUser(userEmail,request.getUserPrincipal().getName())){
             throw new RuntimeException("You can't get this user profile");
-        }
-        return "{\n" +
-                "  \"itemId\": 0,\n" +
-                "  \"progress\": 0\n" +
-                "}";
+        }*/
+        TheoryModel model = TheoryModel.builder()
+                .email(userEmail)
+                .itemId(appId)
+                .requestEmail(request.getUserPrincipal().getName())
+                .build();
+        return service.getTheoryStatistics(model);
     }
 
     @ResponseStatus(HttpStatus.OK)
