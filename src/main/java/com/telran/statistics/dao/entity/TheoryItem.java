@@ -10,5 +10,5 @@ import lombok.*;
 @ToString
 public class TheoryItem {
     String itemId;
-    int progress;
+    Integer progress;
 }

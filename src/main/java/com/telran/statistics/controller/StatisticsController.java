@@ -17,8 +17,6 @@ import javax.validation.constraints.*;
 @Validated
 public class StatisticsController {
 
-    @Value("${admin}")
-    private String adminName;
     final private StatisticsService service;
 
     @Autowired
@@ -72,9 +70,6 @@ public class StatisticsController {
     public String getTheoryStatisticsByApplicationId(@PathVariable @Email String userEmail,
                                                    @PathVariable @NotNull String appId,
                                                    HttpServletRequest request ){
-        /*if (!checkingUser(userEmail,request.getUserPrincipal().getName())){
-            throw new RuntimeException("You can't get this user profile");
-        }*/
         TheoryModel model = TheoryModel.builder()
                 .email(userEmail)
                 .itemId(appId)
@@ -115,13 +110,4 @@ public class StatisticsController {
                 "}";
     }
 
-    private Boolean checkingUser(String userEmail, String requestEmail){
-        if (!requestEmail.equals(userEmail)){
-            if (!requestEmail.equals(adminName)) {
-                return false;
-                //add exception
-            }
-        }
-        return true;
-    }
 }
